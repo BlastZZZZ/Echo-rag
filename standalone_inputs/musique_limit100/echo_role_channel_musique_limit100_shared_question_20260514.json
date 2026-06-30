@@ -50648,9 +50648,9 @@
     "chunk_size": 5,
     "openie_mode": "online",
     "qwen_disable_thinking": true,
-    "chunk_checkpoint_dir": "/mnt/nvme/zly/HippoRAG/run_logs/shared_fact_filter_20260514/cache/role_channel_checkpoints_musique_limit100_shared_question_20260514",
+    "chunk_checkpoint_dir": "standalone_inputs/musique_limit100/cache/role_channel_checkpoints_musique_limit100_shared_question_20260514",
     "resume_chunk_checkpoints": true,
-    "fact_filter_cache_json": "/mnt/nvme/zly/HippoRAG/run_logs/shared_fact_filter_20260514/cache/role_channel_fact_filter_musique_limit100_shared_question_20260514.json"
+    "fact_filter_cache_json": "standalone_inputs/musique_limit100/cache/role_channel_fact_filter_musique_limit100_shared_question_20260514.json"
   },
   "diagnostics": {
     "num_queries": 100,

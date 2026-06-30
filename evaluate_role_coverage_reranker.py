@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import random
 import re
 import urllib.request
@@ -107,8 +108,8 @@ def parse_args() -> argparse.Namespace:
         default="original",
         help="Diagnostic control for masking question-overlap content terms from role descriptions.",
     )
-    parser.add_argument("--embedding_base_url", default="http://localhost:8018/v1/embeddings")
-    parser.add_argument("--embedding_model", default="/mnt/nvme/Qwen3-Embedding-8B")
+    parser.add_argument("--embedding_base_url", default=os.environ.get("EMBEDDING_BASE_URL", "http://localhost:8018/v1/embeddings"))
+    parser.add_argument("--embedding_model", default=os.environ.get("EMBEDDING_MODEL", "BAAI/bge-m3"))
     parser.add_argument("--embedding_batch_size", type=int, default=64)
     parser.add_argument("--embedding_cache_json", default=None)
     parser.add_argument("--verifier_base_url", default="http://localhost:8041/v1")

@@ -21,7 +21,7 @@ from .utils.misc_utils import QuerySolution
 logger = logging.getLogger(__name__)
 
 
-DEFAULT_HYPERHIPPO_V2_DIR = "/mnt/nvme/zly/.workflow/.implementation/hyperhippo_v2"
+DEFAULT_HYPERHIPPO_V2_DIR = os.environ.get("HYPERHIPPO_V2_DIR", "external/hyperhippo_v2")
 
 _EXTERNAL_MODULE_SPECS = [
     ("hyperhippo_v2_external_config", "config.py", "config"),

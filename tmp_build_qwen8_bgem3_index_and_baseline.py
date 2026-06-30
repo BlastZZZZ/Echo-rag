@@ -113,7 +113,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--baseline-output-json", required=True)
     parser.add_argument("--llm-name", default="qwen3-8b")
     parser.add_argument("--llm-base-url", default="http://localhost:8002/v1")
-    parser.add_argument("--embedding-name", default="Transformers//root/models/bge-m3")
+    parser.add_argument("--embedding-name", default=os.environ.get("EMBEDDING_NAME", "Transformers/BAAI/bge-m3"))
     parser.add_argument("--embedding-base-url", default="")
     parser.add_argument("--embedding-batch-size", type=int, default=8)
     parser.add_argument("--max-new-tokens", type=int, default=2048)

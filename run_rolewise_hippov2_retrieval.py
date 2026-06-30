@@ -27,10 +27,10 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 
-DEFAULT_EMBEDDING_NAME = "/mnt/nvme/Qwen3-Embedding-8B"
-DEFAULT_EMBEDDING_BASE_URL = "http://localhost:8018/v1/embeddings"
-DEFAULT_LLM_NAME = "qwen3-8b-train"
-DEFAULT_LLM_BASE_URL = "http://localhost:8039/v1"
+DEFAULT_EMBEDDING_NAME = os.environ.get("EMBEDDING_NAME", "Transformers/BAAI/bge-m3")
+DEFAULT_EMBEDDING_BASE_URL = os.environ.get("EMBEDDING_BASE_URL", "http://localhost:8018/v1/embeddings")
+DEFAULT_LLM_NAME = os.environ.get("LLM_NAME", "qwen3-8b-train")
+DEFAULT_LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "http://localhost:8039/v1")
 
 
 def load_json(path: str | Path) -> Any:

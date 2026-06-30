@@ -27,17 +27,17 @@ The core code and cached MuSiQue selector smoke test can run without referring b
 ## Install
 
 ```bash
-cd /root/code/zly/echoragv2_standalone_slim_20260630
+cd Echo-rag
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
 export PYTHONPATH="$PWD/src:$PWD"
 ```
 
-For the original local environment:
+To use an existing Python environment instead of `.venv`, set `PY` explicitly:
 
 ```bash
-export PY=/root/miniconda3/envs/vllm_qwen/bin/python
+export PY=python3
 export PYTHONPATH="$PWD/src:$PWD"
 ```
 
@@ -46,7 +46,7 @@ export PYTHONPATH="$PWD/src:$PWD"
 This checks the package wiring using bundled MuSiQue limit-100 inputs. It replays the selector stage from a seeded selector cache, so it should not need to call an LLM if all cache keys match.
 
 ```bash
-cd /root/code/zly/echoragv2_standalone_slim_20260630
+cd Echo-rag
 bash scripts/run_musique_selector_smoke.sh
 ```
 
@@ -60,8 +60,8 @@ Expected output:
 The slim package excludes most full dataset JSONs to keep the archive below 24 MB. If you are on the original workstation, hydrate them from the full local package first:
 
 ```bash
-cd /root/code/zly/echoragv2_standalone_slim_20260630
-bash scripts/hydrate_full_data_from_local.sh /root/code/zly/echoragv2_standalone_20260630
+cd Echo-rag
+bash scripts/hydrate_full_data_from_local.sh ../echoragv2_standalone_20260630
 ```
 
 You can also pass any directory that contains `reproduce/dataset/*.json`.
@@ -71,7 +71,7 @@ Then run:
 ```bash
 LLM_NAME=qwen3-8b \
 LLM_BASE_URL=http://localhost:8002/v1 \
-EMBEDDING_NAME=Transformers//root/models/bge-m3 \
+EMBEDDING_NAME=Transformers/BAAI/bge-m3 \
 bash scripts/run_echov2_strict_qwen8_bgem3.sh
 ```
 

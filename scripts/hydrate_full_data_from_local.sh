@@ -3,14 +3,19 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-SOURCE_ROOT="${1:-/root/code/zly/echoragv2_standalone_20260630}"
+if [[ $# -lt 1 ]]; then
+  echo "usage: bash scripts/hydrate_full_data_from_local.sh ../full-package-or-source-root" >&2
+  exit 2
+fi
+
+SOURCE_ROOT="$1"
 
 SOURCE_DATASET_DIR="${SOURCE_ROOT}/reproduce/dataset"
 TARGET_DATASET_DIR="${ROOT}/reproduce/dataset"
 
 if [[ ! -d "${SOURCE_DATASET_DIR}" ]]; then
   echo "source dataset directory not found: ${SOURCE_DATASET_DIR}" >&2
-  echo "usage: bash scripts/hydrate_full_data_from_local.sh /path/to/full/package-or-source-root" >&2
+  echo "usage: bash scripts/hydrate_full_data_from_local.sh ../full-package-or-source-root" >&2
   exit 2
 fi
 

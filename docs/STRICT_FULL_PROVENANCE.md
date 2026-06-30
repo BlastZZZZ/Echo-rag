@@ -22,13 +22,7 @@ outputs_echov2_qwen8_bgem3_limit1000_20260602_passageseed
 
 ## Code Root
 
-The original local run was traced to:
-
-```text
-/root/code/zly/zly/echov2_runnable_code_20260527
-```
-
-This standalone package is a cleaned copy of that code path.
+The original local run was traced to a local `echov2_runnable_code_20260527` working tree. This repository is a cleaned, relocatable copy of that code path.
 
 ## Code Chain
 
