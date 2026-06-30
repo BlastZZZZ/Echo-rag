@@ -41,6 +41,34 @@ export PY=python3
 export PYTHONPATH="$PWD/src:$PWD"
 ```
 
+## API Settings
+
+The runner scripts automatically load a local `.env` file from the repository root. Copy the template and edit it:
+
+```bash
+cp .env.example .env
+```
+
+For local vLLM:
+
+```bash
+OPENAI_API_KEY=EMPTY
+LLM_BASE_URL=http://localhost:8002/v1
+LLM_NAME=qwen3-8b
+API_KEY_ARG=ENV
+```
+
+For a remote OpenAI-compatible API:
+
+```bash
+OPENAI_API_KEY=sk-your-key
+LLM_BASE_URL=https://api.example.com/v1
+LLM_NAME=your-model-name
+API_KEY_ARG=ENV
+```
+
+`LLM_BASE_URL` should point to the `/v1` endpoint, not `/chat/completions`. The `.env` file is ignored by git.
+
 ## Cached Smoke Test
 
 This checks the package wiring using bundled MuSiQue limit-100 inputs. It replays the selector stage from a seeded selector cache, so it should not need to call an LLM if all cache keys match.

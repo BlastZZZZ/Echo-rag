@@ -2,11 +2,19 @@
 set -euo pipefail
 
 unset ALL_PROXY all_proxy HTTP_PROXY http_proxy HTTPS_PROXY https_proxy
-export OPENAI_API_KEY="${OPENAI_API_KEY:-EMPTY}"
 export TOKENIZERS_PARALLELISM=false
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+if [[ -f "${ROOT}/.env" ]]; then
+  set -a
+  # shellcheck source=/dev/null
+  source "${ROOT}/.env"
+  set +a
+fi
+
+export OPENAI_API_KEY="${OPENAI_API_KEY:-EMPTY}"
 CODE_ROOT="${CODE_ROOT:-${ROOT}}"
 DATA_ROOT="${DATA_ROOT:-${ROOT}}"
 ARTIFACT_ROOT="${ARTIFACT_ROOT:-${ROOT}}"
@@ -28,6 +36,7 @@ EMBEDDING_NAME="${EMBEDDING_NAME:-Transformers/BAAI/bge-m3}"
 EMBEDDING_BASE_URL="${EMBEDDING_BASE_URL:-}"
 EMBEDDING_BATCH_SIZE="${EMBEDDING_BATCH_SIZE:-8}"
 MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-2048}"
+API_KEY_ARG="${API_KEY_ARG:-ENV}"
 
 RUN_ROOT="${ARTIFACT_ROOT}/outputs_echov2_qwen8_bgem3_limit${LIMIT_QUERIES}_${DATE_TAG}"
 LOG_ROOT="${ARTIFACT_ROOT}/run_logs/echov2_qwen8_bgem3_limit${LIMIT_QUERIES}_${DATE_TAG}"
@@ -97,6 +106,7 @@ preflight() {
   echo "[preflight] index_root=${INDEX_ROOT:-${RUN_ROOT}}"
   echo "[preflight] llm=${LLM_NAME} ${LLM_BASE_URL}"
   echo "[preflight] embedding=${EMBEDDING_NAME} base_url='${EMBEDDING_BASE_URL}'"
+  echo "[preflight] api_key_arg=${API_KEY_ARG}"
   echo "[preflight] datasets=${DATASETS} limit_queries=${LIMIT_QUERIES}"
 }
 
@@ -133,7 +143,7 @@ build_roles() {
       --parse_retries 3 \
       --request_retries 6 \
       --retry_sleep_seconds 2 \
-      --api_key EMPTY \
+      --api_key "${API_KEY_ARG}" \
       --qwen_disable_thinking \
       --resume
     echo "[$(date '+%F %T')] DONE roles ${dataset} -> ${role_json}"
@@ -262,7 +272,7 @@ run_variant() {
         --max_passage_chars 760 \
         --selector_model "${LLM_NAME}" \
         --selector_base_url "${LLM_BASE_URL}" \
-        --api_key EMPTY \
+        --api_key "${API_KEY_ARG}" \
         --temperature 0.0 \
         --max_tokens 512 \
         --retries 3 \
@@ -282,7 +292,7 @@ run_variant() {
       --cache "${qa_cache}" \
       --model "${LLM_NAME}" \
       --base-url "${LLM_BASE_URL}" \
-      --api-key EMPTY \
+      --api-key "${API_KEY_ARG}" \
       --temperature 0.0 \
       --max-tokens 400 \
       --concurrency 2 \

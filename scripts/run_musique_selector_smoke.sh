@@ -2,14 +2,25 @@
 set -euo pipefail
 
 unset ALL_PROXY all_proxy HTTP_PROXY http_proxy HTTPS_PROXY https_proxy
-export OPENAI_API_KEY="${OPENAI_API_KEY:-EMPTY}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+if [[ -f "${ROOT}/.env" ]]; then
+  set -a
+  # shellcheck source=/dev/null
+  source "${ROOT}/.env"
+  set +a
+fi
+
+export OPENAI_API_KEY="${OPENAI_API_KEY:-EMPTY}"
 PY="${PY:-${ROOT}/.venv/bin/python}"
 if [[ ! -x "${PY}" ]]; then
   PY="${PYTHON:-python3}"
 fi
+API_KEY_ARG="${API_KEY_ARG:-ENV}"
+SELECTOR_MODEL="${SELECTOR_MODEL:-qwen3-32b-judge}"
+SELECTOR_BASE_URL="${SELECTOR_BASE_URL:-${LLM_BASE_URL:-http://127.0.1.1:8045/v1}}"
 
 export PYTHONPATH="${ROOT}/src:${ROOT}:${PYTHONPATH:-}"
 
@@ -41,6 +52,7 @@ echo "[preflight] ROOT=${ROOT}"
 echo "[preflight] PY=${PY}"
 echo "[preflight] input_dir=${INPUT_DIR}"
 echo "[preflight] out_dir=${OUT_DIR}"
+echo "[preflight] selector=${SELECTOR_MODEL} ${SELECTOR_BASE_URL}"
 
 "${PY}" "${ROOT}/evaluate_echo_support_profile_selector.py" \
   --dataset "${DATASET}" \
@@ -59,9 +71,9 @@ echo "[preflight] out_dir=${OUT_DIR}"
   --baseline_candidate_top_k 0 \
   --max_candidates 24 \
   --max_passage_chars 760 \
-  --selector_model qwen3-32b-judge \
-  --selector_base_url http://127.0.1.1:8045/v1 \
-  --api_key EMPTY \
+  --selector_model "${SELECTOR_MODEL}" \
+  --selector_base_url "${SELECTOR_BASE_URL}" \
+  --api_key "${API_KEY_ARG}" \
   --temperature 0.0 \
   --max_tokens 512 \
   --retries 3 \
