@@ -1,0 +1,34 @@
+{
+  "rows": [
+    {
+      "query_index": 0,
+      "question": "Where was the author of Work A born?",
+      "candidate_docs": [0, 1, 2, 3, 4, 5],
+      "selected_doc_indices": [0, 1, 2, 3, 4],
+      "roles": [
+        {"role_id": "find_author", "required": true},
+        {"role_id": "find_birthplace", "required": true}
+      ],
+      "typed_atoms": [
+        {
+          "source_doc_index": 0,
+          "role_id": "find_author",
+          "subject_values": ["Work A"],
+          "relation_text": "author",
+          "object_values": ["Person B"],
+          "source_authorization": "source-span",
+          "exact_source_span": "Work A was written by Person B."
+        },
+        {
+          "source_doc_index": 5,
+          "role_id": "find_birthplace",
+          "subject_values": ["Person B"],
+          "relation_text": "born in",
+          "object_values": ["City C"],
+          "source_authorization": "source-span",
+          "exact_source_span": "Person B was born in City C."
+        }
+      ]
+    }
+  ]
+}

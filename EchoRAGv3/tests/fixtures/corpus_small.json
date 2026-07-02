@@ -1,0 +1,8 @@
+[
+  {"title": "Work A", "text": "Work A was written by Person B."},
+  {"title": "Distractor 1", "text": "Unrelated evidence."},
+  {"title": "Distractor 2", "text": "Unrelated evidence."},
+  {"title": "Distractor 3", "text": "Unrelated evidence."},
+  {"title": "Distractor 4", "text": "Unrelated evidence."},
+  {"title": "Person B", "text": "Person B was born in City C."}
+]
